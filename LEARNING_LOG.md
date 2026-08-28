@@ -13,6 +13,13 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-08-28 — Week 1, Day 2: Lists & Dicts (the shape of AI data)
+  - Built week1/data_structures.py. Lists: indexing, len(), append(), enumerate().
+  - Dicts: key→value pairs, access by name not position.
+  - Combined lists + dicts into an LLM "messages" array — the exact data structure
+    every LLM API uses (system/user/assistant roles). Now I know what I'll be building in Week 3.
+  - f-string with dict keys inside (single vs double quote nesting).
+
   ## 2026-08-27 — Week 1, Day 1: First Python (shell script → Python)
   - Rewrote an ops disk-usage checker from bash into Python (week1/disk_check.py).
   - Learned by building: variables, print(), import, subprocess.run() to call shell commands,
