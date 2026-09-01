@@ -13,6 +13,14 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-01 — Week 1, Day 3: Functions
+  - Built week1/functions.py. Learned def, arguments, return (vs print).
+  - Refactored the disk-checker into a reusable check_disk_usage(threshold) that RETURNS
+    a list of warnings instead of printing — separating "compute" from "display."
+  - Proved reuse: same function called with threshold 80 and 60 gives different results, no code duplication.
+  - Debugging lesson (big one): an over-indented block put the threshold logic inside the inner
+    loop, so a break skipped it -> "runs but does nothing." Also caught a $ used instead of % (shell habit).
+
   ## 2026-08-28 — Week 1, Day 2: Lists & Dicts (the shape of AI data)
   - Built week1/data_structures.py. Lists: indexing, len(), append(), enumerate().
   - Dicts: key→value pairs, access by name not position.
