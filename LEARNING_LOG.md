@@ -13,6 +13,14 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-01 — Week 1, Day 4: Files + JSON  (WEEK 1 COMPLETE)
+  - Built week1/files_json.py. Plain text files with `with open(...)` (write "w" / read "r").
+  - JSON: json.dump (dict -> JSON text / serialize) and json.load (JSON text -> dict / deserialize).
+  - The load -> modify -> save cycle (the everyday config/API-data pattern).
+  - Learned .gitignore: kept generated artifacts (notes.txt, config.json) out of version control.
+  - WEEK 1 DONE: variables, subprocess, parsing, lists, dicts, LLM messages format, functions, files, JSON.
+    Foundation set for Week 2 (calling APIs) and Week 3 (Kiro CLI wrapper).
+
   ## 2026-09-01 — Week 1, Day 3: Functions
   - Built week1/functions.py. Learned def, arguments, return (vs print).
   - Refactored the disk-checker into a reusable check_disk_usage(threshold) that RETURNS
