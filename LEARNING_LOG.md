@@ -13,6 +13,16 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-03 — Week 2, Day 1: Calling APIs with requests
+  - Set up week2 as a uv project (uv init / uv add requests) — used the tool we chose, not raw venv.
+  - Wrote week2/api_call.py: requests.get(), response.json() -> dict, nested access (address.city).
+  - Error handling: try/except, timeout, raise_for_status; tested happy path, 404, and bad-DNS — all fail gracefully.
+  - BIG real-world detour: solved corporate TLS. Charter proxy intercepts HTTPS with its own CA.
+    requests uses certifi (didn't trust Charter). Fix: extracted the on-the-wire Charter root via
+    openssl s_client, combined with certifi into ~/charter-combined-ca.pem, set REQUESTS_CA_BUNDLE
+    (+ SSL_CERT_FILE) in ~/.zshrc. Keychain-exported root differed from the wire cert — the wire one worked.
+  - Kept cert files out of git (.gitignore *.pem, .venv/, .DS_Store) — employer infra never goes public.
+
   ## 2026-09-01 — Week 1, Day 4: Files + JSON  (WEEK 1 COMPLETE)
   - Built week1/files_json.py. Plain text files with `with open(...)` (write "w" / read "r").
   - JSON: json.dump (dict -> JSON text / serialize) and json.load (JSON text -> dict / deserialize).
