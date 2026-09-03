@@ -220,3 +220,17 @@ __marimo__/
 
 week1/notes.txt
 week1/config.json
+
+
+# Corporate certificate bundles - NEVER commit (employer infra)
+*.pem
+week2/charter-ca.pem
+
+# macOS
+.DS_Store
+  
+# Python virtual environments
+.venv/
+**/.venv/
+
+
