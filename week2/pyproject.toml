@@ -1,19 +1,8 @@
-[project]
-name = "week2"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-authors = [
-    { name = "Adarsh Srivastava", email = "free4adarshnow@gmail.com" }
-]
-requires-python = ">=3.12"
-dependencies = [
-    "requests>=2.34.2",
-]
-
-[project.scripts]
-week2 = "week2:main"
-
-[build-system]
-requires = ["uv_build>=0.12.5,<0.13.0"]
-build-backend = "uv_build"
+  [project]
+  name = "week2"
+  version = "0.1.0"
+  description = "Week 2 — calling APIs from Python"
+  requires-python = ">=3.12"
+  dependencies = [
+      "requests>=2.34.2",
+  ]
