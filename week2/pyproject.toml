@@ -4,5 +4,6 @@
   description = "Week 2 — calling APIs from Python"
   requires-python = ">=3.12"
   dependencies = [
+      "python-dotenv>=1.2.3",
       "requests>=2.34.2",
-  ]
+]

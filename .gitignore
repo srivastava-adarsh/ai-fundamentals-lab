@@ -233,4 +233,8 @@ week2/charter-ca.pem
 .venv/
 **/.venv/
 
-
+  
+# Secrets - NEVER commit
+.env
+*.env
+.env.*
