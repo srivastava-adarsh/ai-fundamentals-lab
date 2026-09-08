@@ -13,6 +13,12 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-08 — Week 2, Day 3: Error handling (deeper)
+  - week2/error_handling.py: saw a raw crash first (ZeroDivisionError), then handled it.
+  - Specific exception types: ZeroDivisionError, TypeError, FileNotFoundError — each handled deliberately.
+  - `finally` always runs (success or failure) — for guaranteed cleanup.
+  - Sharpened error-reading: decoded an AttributeError that was really a `.` vs `,` typo. Not every error is a logic bug.
+
   ## 2026-09-08 — Week 2, Day 2: Secrets with env vars & .env
   - week2/secrets_demo.py: os.environ.get() to read env vars; printed only the LENGTH, never the secret.
   - Inline var for one run (VAR=... uv run ...), then python-dotenv: load_dotenv() reads a .env file automatically.
