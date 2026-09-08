@@ -13,6 +13,12 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-08 — Week 2, Day 2: Secrets with env vars & .env
+  - week2/secrets_demo.py: os.environ.get() to read env vars; printed only the LENGTH, never the secret.
+  - Inline var for one run (VAR=... uv run ...), then python-dotenv: load_dotenv() reads a .env file automatically.
+  - Security discipline: added .env (+ *.env) to .gitignore; used `git check-ignore` to POSITIVELY confirm
+    .env and charter-ca.pem are ignored before committing. Verify, don't assume — no secret/cert leaves local.
+
   ## 2026-09-03 — Week 2, Day 1: Calling APIs with requests
   - Set up week2 as a uv project (uv init / uv add requests) — used the tool we chose, not raw venv.
   - Wrote week2/api_call.py: requests.get(), response.json() -> dict, nested access (address.city).
