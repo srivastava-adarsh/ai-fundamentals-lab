@@ -13,6 +13,14 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-08 — Week 2, Day 4: Virtual environments  (WEEK 2 COMPLETE)
+  - Understood the three pieces: pyproject.toml (declared deps / "the order"), uv.lock (exact pinned
+    versions + hashes / "the recipe", reproducible), .venv/ (the isolated installed env / "the kitchen", gitignored).
+  - Key uv commands: init, add, remove, sync, run, lock. `uv run` auto-activates the venv.
+  - Ran `uv sync` — it cleaned up a stale self-install (leftover from the removed package scaffold). Env is reproducible.
+  - WEEK 2 DONE: requests + APIs, corporate TLS solved, secrets via .env, error handling, virtual environments.
+    Full foundation for Week 3 (Kiro CLI wrapper).
+
   ## 2026-09-08 — Week 2, Day 3: Error handling (deeper)
   - week2/error_handling.py: saw a raw crash first (ZeroDivisionError), then handled it.
   - Specific exception types: ZeroDivisionError, TypeError, FileNotFoundError — each handled deliberately.
