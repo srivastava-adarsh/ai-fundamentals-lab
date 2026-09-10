@@ -13,6 +13,14 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-09 — Week 3, Day 1: The Kiro CLI wrapper (first real AI tool)
+  - Built week3/kiro_wrapper.py: ask_llm(prompt) calls `kiro-cli chat --no-interactive --model auto` via subprocess.
+  - Cleaned output: used repr() to reveal hidden ANSI color codes; stripped them with a regex, removed the "> " prefix.
+  - Debug lesson: defining clean_output() isn't enough — ask_llm() has to actually CALL it (was returning raw stdout).
+  - Robust error handling: timeout (TimeoutExpired), non-zero returncode (reports stderr), empty response.
+  - Verified failure path on purpose (bad model name -> clean ERROR, no crash). Combines Weeks 1-2: functions,
+    subprocess, string parsing, regex, error handling. This is the COMPASS chat layer, understood by hand.
+
   ## 2026-09-08 — Week 2, Day 4: Virtual environments  (WEEK 2 COMPLETE)
   - Understood the three pieces: pyproject.toml (declared deps / "the order"), uv.lock (exact pinned
     versions + hashes / "the recipe", reproducible), .venv/ (the isolated installed env / "the kitchen", gitignored).
