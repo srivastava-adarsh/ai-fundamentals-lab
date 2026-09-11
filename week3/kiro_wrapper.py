@@ -47,7 +47,11 @@ def ask_llm_json(prompt):
         return{"Error": "model did not return valid JSON" , "raw": raw}
 
 #test it
-info = ask_llm_json("Give me infor about python language: name, year created, creator. ")
+info = ask_llm_json("Give me infor about python language: name, year created, creator. " 
+                    "Return JSON with exactly these keys"
+                    '"name"(string), "year_created"(integer), "creator" (string).')
+
+print(info)
 
 if "error" not in info:
     print(f"{info['name']} was created in {info['year_created']} by {info['creator']}.")
