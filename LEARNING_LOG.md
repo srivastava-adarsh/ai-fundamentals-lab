@@ -13,6 +13,13 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-11 — Week 3, Day 2: Structured JSON output from the LLM
+  - Added ask_llm_json(prompt) to kiro_wrapper.py: appends an instruction to return ONLY valid JSON
+    (no markdown/code fences), then json.loads() into a dict.
+  - Guarded the parse with except json.JSONDecodeError -> safe fallback {"error":..., "raw":...} (LLM output isn't guaranteed).
+  - Used the structured result like any dict to build a sentence from typed fields (year_created came back as int 1991).
+  - Key idea: structured/parseable output is what turns "a chatbot" into "an AI system." (Reinforced dict syntax: colon = key/value separator; f-string literal text incl. trailing period.)
+
   ## 2026-09-09 — Week 3, Day 1: The Kiro CLI wrapper (first real AI tool)
   - Built week3/kiro_wrapper.py: ask_llm(prompt) calls `kiro-cli chat --no-interactive --model auto` via subprocess.
   - Cleaned output: used repr() to reveal hidden ANSI color codes; stripped them with a regex, removed the "> " prefix.
