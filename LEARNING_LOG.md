@@ -19,6 +19,10 @@
   - Guarded the parse with except json.JSONDecodeError -> safe fallback {"error":..., "raw":...} (LLM output isn't guaranteed).
   - Used the structured result like any dict to build a sentence from typed fields (year_created came back as int 1991).
   - Key idea: structured/parseable output is what turns "a chatbot" into "an AI system." (Reinforced dict syntax: colon = key/value separator; f-string literal text incl. trailing period.)
+  - IMPORTANT follow-up: don't let the model GUESS the JSON key names (I got year_created by luck the first time,
+    then observed it after the fact — fragile). Fix: SPECIFY exact keys/types in the prompt ("Return JSON with exactly
+    these keys: name (string), year_created (integer), creator (string)"). Define the contract; still keep the parse
+    fallback. Industry-grade version = JSON Schema / Pydantic (coming in Phase 3 guardrails).
 
   ## 2026-09-09 — Week 3, Day 1: The Kiro CLI wrapper (first real AI tool)
   - Built week3/kiro_wrapper.py: ask_llm(prompt) calls `kiro-cli chat --no-interactive --model auto` via subprocess.
