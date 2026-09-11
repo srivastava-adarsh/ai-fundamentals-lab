@@ -33,7 +33,23 @@ def ask_llm(prompt):
 
     return cleaned
 
+import json
 
-#Test it
-reply = ask_llm("In one sentence, what is a REST API")
-print(reply)
+def ask_llm_json(prompt):
+    #Instruct the model to return only valid JSON
+    full_prompt = ( prompt + "\n\nRespond only with valid JSON, no markdown, no code fences, no explanation`")
+
+    raw = ask_llm(full_prompt)
+
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError:
+        return{"Error": "model did not return valid JSON" , "raw": raw}
+
+#test it
+info = ask_llm_json("Give me infor about python language: name, year created, creator. ")
+
+if "error" not in info:
+    print(f"{info['name']} was created in {info['year_created']} by {info['creator']}.")
+else:
+    print("Could not get structured data", info["raw"])
