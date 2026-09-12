@@ -22,6 +22,10 @@
     tool call into the real system's API and returns data in MCP format.
   - Comprehension check passed (add a new source = create/obtain an MCP server + `kiro-cli mcp add`).
   - NOTE: kept all specific configured server names/internal details OUT of this log and out of anything public (IP boundary).
+  - MCP vs REST (key distinction): REST is for developers to code against (endpoints known from docs, deterministic calls);
+    MCP is for an LLM to DISCOVER tools at runtime (server self-describes tools/params) and invoke them autonomously,
+    with one standard protocol across all servers. MCP often WRAPS REST: LLM --(MCP)--> server --(REST)--> real system.
+    The MCP server is the adapter/translator between the two.
   - Decision pending: possible tiny hands-on MCP server build (Option B) now, else save for Phase 2 Week 7 (dedicated).
 
   ## 2026-09-12 — Week 3, Day 3: Multi-turn conversation (memory)
