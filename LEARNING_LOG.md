@@ -13,6 +13,15 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-12 — Week 3, Day 3: Multi-turn conversation (memory)
+  - Key insight: LLMs have NO memory between calls. "Memory" = you resend the whole history each time.
+  - Proved it: two separate ask_llm() calls -> model didn't recall my name. Then ask_with_history(messages)
+    flattens the messages list (Week 1 structure) into a transcript and resends it -> model recalls "Bond".
+  - Learned += (string concatenation/accumulate) and why the for-loop rebuilds the transcript; "assistant:" cue.
+  - Cleanup lesson — "works" != "correct": fixed subprocess.TimeoutExpired (was Timeout.Expired),
+    content: reply1 (was the literal string "reply1"), key casing "error", stray backtick. Right output, wrong reasons before.
+  - Caveat noted: kiro-cli injects its own agent context/tools (username, Jira, steering files) — not a clean model endpoint.
+
   ## 2026-09-11 — Week 3, Day 2: Structured JSON output from the LLM
   - Added ask_llm_json(prompt) to kiro_wrapper.py: appends an instruction to return ONLY valid JSON
     (no markdown/code fences), then json.loads() into a dict.
