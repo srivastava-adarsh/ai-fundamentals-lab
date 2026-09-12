@@ -13,6 +13,17 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-12 — Week 3, Day 4: MCP (Model Context Protocol) — concept (Option A)
+  - Understood MCP as the standard protocol connecting an AI app to external tools/data ("USB for AI tools").
+  - Roles: Host/Client (the AI app) <-> Server (exposes tools, adapts to a real system's API) via the protocol;
+    Host discovers tools and calls them. Servers are configured/scoped.
+  - Inspected the live setup via `kiro-cli mcp` (list/add/remove/status/import) to make it concrete.
+  - Mapped it to how a RAG assistant works: it's a Host connected to tool Servers; the server translates a
+    tool call into the real system's API and returns data in MCP format.
+  - Comprehension check passed (add a new source = create/obtain an MCP server + `kiro-cli mcp add`).
+  - NOTE: kept all specific configured server names/internal details OUT of this log and out of anything public (IP boundary).
+  - Decision pending: possible tiny hands-on MCP server build (Option B) now, else save for Phase 2 Week 7 (dedicated).
+
   ## 2026-09-12 — Week 3, Day 3: Multi-turn conversation (memory)
   - Key insight: LLMs have NO memory between calls. "Memory" = you resend the whole history each time.
   - Proved it: two separate ask_llm() calls -> model didn't recall my name. Then ask_with_history(messages)
