@@ -21,7 +21,7 @@ def ask_llm(prompt):
             text=True,
             timeout=60,
         )
-    except subprocess.Timeout.Expired:
+    except subprocess.TimeoutExpired:
         return "Error: Kiro took too long to respond"
 
     if result.returncode != 0:
@@ -37,7 +37,7 @@ import json
 
 def ask_llm_json(prompt):
     #Instruct the model to return only valid JSON
-    full_prompt = ( prompt + "\n\nRespond only with valid JSON, no markdown, no code fences, no explanation`")
+    full_prompt = ( prompt + "\n\nRespond only with valid JSON, no markdown, no code fences, no explanation")
 
     raw = ask_llm(full_prompt)
 
@@ -47,13 +47,36 @@ def ask_llm_json(prompt):
         return{"Error": "model did not return valid JSON" , "raw": raw}
 
 #test it
-info = ask_llm_json("Give me infor about python language: name, year created, creator. " 
+info = ask_llm_json("Give me info about python language: name, year created, creator. " 
                     "Return JSON with exactly these keys"
                     '"name"(string), "year_created"(integer), "creator" (string).')
 
-print(info)
 
-if "error" not in info:
+
+if "Error" not in info:
     print(f"{info['name']} was created in {info['year_created']} by {info['creator']}.")
 else:
     print("Could not get structured data", info["raw"])
+
+
+def ask_with_history(messages):
+    #Flatten the conversation history into a single prompt
+    conversation = ""
+    for msg in messages:
+        conversation += f"{msg['role']}: {msg['content']}\n"
+    conversation += "assistant:"
+    return ask_llm(conversation)
+
+#Test: Maintain history ourselves
+messages = [{"role": "user" , "content": "My name is Bond, Remmeber it"},]
+
+reply1 = ask_with_history(messages)
+print("Assistant: ", reply1)
+
+#add the assitant's reply to history, then ask again
+messages.append({"role":"assistant", "content":reply1})
+messages.append({"role":"user", "content":" What is my name?"})
+
+reply2 = ask_with_history(messages)
+print("Assistant: ", reply2)
+
