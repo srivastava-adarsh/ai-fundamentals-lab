@@ -26,7 +26,12 @@
     MCP is for an LLM to DISCOVER tools at runtime (server self-describes tools/params) and invoke them autonomously,
     with one standard protocol across all servers. MCP often WRAPS REST: LLM --(MCP)--> server --(REST)--> real system.
     The MCP server is the adapter/translator between the two.
-  - Decision pending: possible tiny hands-on MCP server build (Option B) now, else save for Phase 2 Week 7 (dedicated).
+  - Option B DONE: built a minimal MCP server (FastMCP, one 'add' tool) + a client that launches it, does the
+    handshake, list_tools (discovery), and call_tool. Saw the full round-trip return 5.
+  - Learned by bug: without @mcp.tool() the tool was INVISIBLE (empty list, 'Unknown tool') -> with it, discovered & callable.
+  - Confirmed self-describing property live: tool description came from the docstring, params from type hints.
+  - Also hit a real versioning break: mcp 2.x renamed FastMCP->MCPServer; pinned mcp<2 for the throwaway (why uv.lock matters).
+  - Touched async/await (client I/O) at a 'use it' level; deeper async is later. WEEK 3 COMPLETE.
 
   ## 2026-09-12 — Week 3, Day 3: Multi-turn conversation (memory)
   - Key insight: LLMs have NO memory between calls. "Memory" = you resend the whole history each time.
