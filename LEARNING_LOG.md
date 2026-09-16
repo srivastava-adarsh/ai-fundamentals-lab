@@ -13,6 +13,17 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-16 — Week 4, Day 1: Embeddings ("meaning as numbers")
+  - week4/embeddings.py: loaded MiniLM (all-MiniLM-L6-v2) via sentence-transformers; embedded text -> 384-dim vector.
+  - Compared sentences with cosine similarity: "dog barked" vs "puppy made noise" = 0.526 (HIGH, despite ~no shared words);
+    either vs "filed my tax return" = ~0.06-0.10 (LOW). Proved semantic > keyword matching. This is the MiniLM half of COMPASS.
+  - Deep-dive Q&A (understood, not just used): how models learn meaning (trained neural net, statistical geometry, not true
+    comprehension); dimension COUNT is a design choice (384), dimension MEANING is emergent/not human-interpretable;
+    values are floats (~7 digits), NOT bounded to [-1,1] — the [-1,1] bound is on the cosine-similarity SCORE.
+  - Cosine similarity mechanics: dot product / (magnitudes) = cosine of angle; ignores length, keeps direction; symmetric
+    (hence (0,1)==(1,0)); similarity matrix is symmetric with 1.0 diagonal -> compute upper triangle only (the nested loop, j=i+1).
+  - Debug: fixed "MiniLLM" (2 L's) typo -> HF 401/NotFound; correct name is MiniLM (1 L).
+
   ## 2026-09-12 — Week 3, Day 4: MCP (Model Context Protocol) — concept (Option A)
   - Understood MCP as the standard protocol connecting an AI app to external tools/data ("USB for AI tools").
   - Roles: Host/Client (the AI app) <-> Server (exposes tools, adapts to a real system's API) via the protocol;
