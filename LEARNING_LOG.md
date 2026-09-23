@@ -13,6 +13,15 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-22 — Week 4, Day 2: Semantic search from scratch  (PHASE 1 CONTENT COMPLETE)
+  - week4/semantic_search.py: embed a set of docs (the "index"), embed a query into the SAME space,
+    cosine-sim query vs all docs, pair (score, doc) as tuples, sort desc, return top_k.
+  - Query "Tell me about pet animals" -> ranked the dog (0.591) and cat (0.408) docs top, Python (0.148) low —
+    despite no shared keywords. This IS the Retrieval in RAG; COMPASS does retrieve->augment->generate.
+  - Concepts locked: meaning->location in 384-dim space; same model/space for query+docs; search = nearest vectors;
+    tuples (two-parens = append one tuple); list.sort(reverse=True) ranks by first element (score).
+  - PHASE 1 LEARNING DONE. Next: Phase 1 refresher + validation gate before Phase 2.
+
   ## 2026-09-16 — Week 4, Day 1: Embeddings ("meaning as numbers")
   - week4/embeddings.py: loaded MiniLM (all-MiniLM-L6-v2) via sentence-transformers; embedded text -> 384-dim vector.
   - Compared sentences with cosine similarity: "dog barked" vs "puppy made noise" = 0.526 (HIGH, despite ~no shared words);
