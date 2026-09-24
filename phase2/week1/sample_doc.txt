@@ -1,0 +1,9 @@
+  The Reliability pillar encompasses the ability of a workload to perform its intended function correctly and
+  consistently when it is expected to. This includes the ability to operate and test the workload through its total
+  lifecycle. A resilient workload recovers quickly from failures to meet business and customer demand. Key topics include
+  distributed system design, recovery planning, and adapting to changing requirements. Foundational requirements are
+  those whose scope extends beyond a single workload or project. Before architecting any system, you must ensure that you
+  have sufficient network bandwidth and other foundational requirements in place. Amazon Web Services provides service
+  quotas, also referred to as limits, which are the maximum number of service resources or operations for your account.
+  Change management is how you monitor and respond to changes in demand. Failure management includes backing up data,
+  designing for fault isolation, and planning for disaster recovery.
