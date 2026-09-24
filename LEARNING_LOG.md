@@ -13,6 +13,15 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-09-24 — PHASE 2, Week 1, Day 1: Chunking strategies
+  - phase2/week1/chunking.py on a public AWS Well-Architected paragraph (sample_doc.txt).
+  - #1 fixed-size (cut every N chars): butchers words at every boundary -> muddy embeddings -> worse retrieval.
+  - #2 sentence-aware (split on '. '): clean whole-thought chunks. (Debug: return was inside the for-loop -> only 1 chunk;
+    same indentation-scope bug family as before. Fixed by dedenting return.)
+  - #3 fixed-size WITH overlap (while loop, start = end - overlap): tail of each chunk repeats at head of next,
+    preserving context across boundaries so answers don't fall between chunks. Learned while-loop.
+  - Takeaway: chunking quality drives retrieval quality. Next: summarize the 3 tradeoffs, then metadata on chunks.
+
   ## 2026-09-22 — Week 4, Day 2: Semantic search from scratch  (PHASE 1 CONTENT COMPLETE)
   - week4/semantic_search.py: embed a set of docs (the "index"), embed a query into the SAME space,
     cosine-sim query vs all docs, pair (score, doc) as tuples, sort desc, return top_k.
