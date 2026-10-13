@@ -238,3 +238,7 @@ week2/charter-ca.pem
 .env
 *.env
 .env.*
+
+# Chroma vector DB - generated output, never commit
+chroma_store/
+**/chroma_store/
