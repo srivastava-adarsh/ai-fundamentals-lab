@@ -13,6 +13,59 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-10-27 — PHASE 2, Week 2: end-to-end retrieval on real content + repo tidy  (WEEK 2 LEARNING COMPLETE)
+  - phase2/week2/load_real_chunks.py: wired the whole pipeline on real content (public AWS Well-Architected sample):
+    section-based chunking -> embed with own cached all-MiniLM-L6-v2 (HF_HUB_OFFLINE=1, no network) ->
+    persistent Chroma collection -> semantic query -> metadata where-filter.
+  - Proof it works: query "How do I recover when my system fails?" ranked #1 a chunk with ZERO keyword overlap
+    ("failure management... backing up data...") -> meaning > keyword (BM25 would've missed it). where={"section":...}
+    then constrained candidates BEFORE ranking (a worse match surfaced because better ones were filtered out).
+  - Debug: the classic return-inside-the-for-loop bug again (only the first section chunked) -> dedented return -> all 3 sections.
+  - Learned the if __name__ == "__main__" guard (import-vs-run); chose a self-contained Week-2 file over cross-dir import.
+  - Repo housekeeping: restructured week1-4 -> phase1/week1-4 for consistency with phase2/ (git mv, history preserved);
+    rewrote the root README; added blog/02. Everything pushed to GitHub (public, IP-safe).
+
+  ## 2026-10-26 — PHASE 2, Week 2: index internals (brute-force, IVFFlat, HNSW) at architect depth
+  - Brute-force k-NN is exact but O(n) per query -> breaks at millions. ANN indexes trade a little recall for big speed.
+  - IVFFlat: clusters + centroids; query compares all centroids (round 1) then brute-forces inside the nearest clusters
+    (round 2). Misses concentrate at cluster boundaries; `probes` trades speed<->recall (max probes = brute force).
+    Needs representative data at build + periodic rebuilds as data drifts.
+  - HNSW: navigable LAYERED graph (highways->arterials->local streets); greedy hop per layer until a local minimum,
+    then descend; bottom layer explores an ef_search-sized candidate pool. Memory cost = the link graph (knob `m`),
+    a real bill at tens of millions of vectors (must live in RAM). Graceful incremental inserts (vs IVFFlat staleness).
+    Knobs: ef_construction (build-time, baked in) vs ef_search (query-time, tunable recall<->speed).
+  - Decision heuristic: default HNSW for query perf + streaming inserts; IVFFlat when memory/cost at scale dominates
+    or the corpus is static/batch-rebuilt. (Scenario: 80M + 500k/day + latency SLO -> HNSW; manage memory via m / quantization / sharding.)
+  - Remediation caught: don't reach for ef_search to cut MEMORY -> that's `m` (ef_search tunes query speed/recall only).
+
+  ## 2026-10-15 — PHASE 2, Week 2: distance metrics (L2 vs cosine vs inner product)
+  - pgvector operators: <-> L2/Euclidean, <=> cosine, <#> inner product.
+  - Direction = meaning, magnitude = (noisy, often length-related) artifact. Proved it: two SAME-direction vectors of
+    different length -> cosine distance 0 (identical), L2 distance 8 (far). Same vectors, metrics disagree.
+  - Text embeddings default to cosine (meaning lives in direction). MiniLM normalizes vectors -> cosine/L2 converge,
+    so the choice becomes a compute-cost call (inner product cheapest). Failure mode: magnitude-sensitive metric on
+    UN-normalized vectors skews ranking by length/repetition.
+
+  ## 2026-10-13 — PHASE 2, Week 2: real vector stores (Chroma + pgvector) stood up
+  - phase2/week2/vector_db.py: Chroma PersistentClient, own offline MiniLM embedder
+    (SentenceTransformerEmbeddingFunction, all-MiniLM-L6-v2), forced offline via os.environ["HF_HUB_OFFLINE"]="1"
+    placed ABOVE the imports (HF reads the setting at import time). Proved the HF Hub warning disappears; weights load from cache.
+  - pgvector: installed Postgres 17 + pgvector 0.8.7 (switched off 16 — the prebuilt bottle only targets pg17/18);
+    createdb vectorlab; CREATE EXTENSION vector (extensions are enabled PER-database). CREATE TABLE with a vector(3) column,
+    inserted toy vectors, ran real similarity SQL (embedding <-> '[...]' ORDER BY distance). Nearest-first proven.
+  - Git hygiene: chroma_store/ (generated DB) added to .gitignore; verified excluded via git check-ignore before committing.
+
+  ## 2026-09-27 — PHASE 2, Week 1: chunking metadata, section tagging, section pre-filter  (WEEK 1 COMPLETE)
+  - Extended phase2/week1/chunking.py: #4 attach metadata to each chunk (id, source, char offsets);
+    #5 define sections up front then chunk WITHIN each section (section label travels with the chunk);
+    then filter chunks by section. This is the metadata that makes pre-filtered retrieval possible later.
+  - Learned the discipline of ONE small concept at a time (metadata, then sectioning, then filtering — not all at once).
+
+  ## 2026-09-23 — PHASE 1 VALIDATION PASSED — cleared for Phase 2
+  - End-of-phase gate: explained/applied Phase 1 concepts from memory, no notes. Scored 10/10 after two sharpenings
+    (conversation-memory mechanism; sentence-level embeddings). Phase 1 (Python fluency + how LLMs work) complete.
+  - Confirms the rule: don't advance until I can defend the concepts in my own words.
+
   ## 2026-09-24 — PHASE 2, Week 1, Day 1: Chunking strategies
   - phase2/week1/chunking.py on a public AWS Well-Architected paragraph (sample_doc.txt).
   - #1 fixed-size (cut every N chars): butchers words at every boundary -> muddy embeddings -> worse retrieval.
