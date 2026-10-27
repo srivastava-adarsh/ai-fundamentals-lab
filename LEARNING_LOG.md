@@ -23,7 +23,7 @@
   - Takeaway: chunking quality drives retrieval quality. Next: summarize the 3 tradeoffs, then metadata on chunks.
 
   ## 2026-09-22 — Week 4, Day 2: Semantic search from scratch  (PHASE 1 CONTENT COMPLETE)
-  - week4/semantic_search.py: embed a set of docs (the "index"), embed a query into the SAME space,
+  - phase1/week4/semantic_search.py: embed a set of docs (the "index"), embed a query into the SAME space,
     cosine-sim query vs all docs, pair (score, doc) as tuples, sort desc, return top_k.
   - Query "Tell me about pet animals" -> ranked the dog (0.591) and cat (0.408) docs top, Python (0.148) low —
     despite no shared keywords. This IS the Retrieval in RAG; COMPASS does retrieve->augment->generate.
@@ -32,7 +32,7 @@
   - PHASE 1 LEARNING DONE. Next: Phase 1 refresher + validation gate before Phase 2.
 
   ## 2026-09-16 — Week 4, Day 1: Embeddings ("meaning as numbers")
-  - week4/embeddings.py: loaded MiniLM (all-MiniLM-L6-v2) via sentence-transformers; embedded text -> 384-dim vector.
+  - phase1/week4/embeddings.py: loaded MiniLM (all-MiniLM-L6-v2) via sentence-transformers; embedded text -> 384-dim vector.
   - Compared sentences with cosine similarity: "dog barked" vs "puppy made noise" = 0.526 (HIGH, despite ~no shared words);
     either vs "filed my tax return" = ~0.06-0.10 (LOW). Proved semantic > keyword matching. This is the MiniLM half of COMPASS.
   - Deep-dive Q&A (understood, not just used): how models learn meaning (trained neural net, statistical geometry, not true
@@ -83,7 +83,7 @@
     fallback. Industry-grade version = JSON Schema / Pydantic (coming in Phase 3 guardrails).
 
   ## 2026-09-09 — Week 3, Day 1: The Kiro CLI wrapper (first real AI tool)
-  - Built week3/kiro_wrapper.py: ask_llm(prompt) calls `kiro-cli chat --no-interactive --model auto` via subprocess.
+  - Built phase1/week3/kiro_wrapper.py: ask_llm(prompt) calls `kiro-cli chat --no-interactive --model auto` via subprocess.
   - Cleaned output: used repr() to reveal hidden ANSI color codes; stripped them with a regex, removed the "> " prefix.
   - Debug lesson: defining clean_output() isn't enough — ask_llm() has to actually CALL it (was returning raw stdout).
   - Robust error handling: timeout (TimeoutExpired), non-zero returncode (reports stderr), empty response.
@@ -99,20 +99,20 @@
     Full foundation for Week 3 (Kiro CLI wrapper).
 
   ## 2026-09-08 — Week 2, Day 3: Error handling (deeper)
-  - week2/error_handling.py: saw a raw crash first (ZeroDivisionError), then handled it.
+  - phase1/week2/error_handling.py: saw a raw crash first (ZeroDivisionError), then handled it.
   - Specific exception types: ZeroDivisionError, TypeError, FileNotFoundError — each handled deliberately.
   - `finally` always runs (success or failure) — for guaranteed cleanup.
   - Sharpened error-reading: decoded an AttributeError that was really a `.` vs `,` typo. Not every error is a logic bug.
 
   ## 2026-09-08 — Week 2, Day 2: Secrets with env vars & .env
-  - week2/secrets_demo.py: os.environ.get() to read env vars; printed only the LENGTH, never the secret.
+  - phase1/week2/secrets_demo.py: os.environ.get() to read env vars; printed only the LENGTH, never the secret.
   - Inline var for one run (VAR=... uv run ...), then python-dotenv: load_dotenv() reads a .env file automatically.
   - Security discipline: added .env (+ *.env) to .gitignore; used `git check-ignore` to POSITIVELY confirm
     .env and charter-ca.pem are ignored before committing. Verify, don't assume — no secret/cert leaves local.
 
   ## 2026-09-03 — Week 2, Day 1: Calling APIs with requests
   - Set up week2 as a uv project (uv init / uv add requests) — used the tool we chose, not raw venv.
-  - Wrote week2/api_call.py: requests.get(), response.json() -> dict, nested access (address.city).
+  - Wrote phase1/week2/api_call.py: requests.get(), response.json() -> dict, nested access (address.city).
   - Error handling: try/except, timeout, raise_for_status; tested happy path, 404, and bad-DNS — all fail gracefully.
   - BIG real-world detour: solved corporate TLS. Charter proxy intercepts HTTPS with its own CA.
     requests uses certifi (didn't trust Charter). Fix: extracted the on-the-wire Charter root via
@@ -121,7 +121,7 @@
   - Kept cert files out of git (.gitignore *.pem, .venv/, .DS_Store) — employer infra never goes public.
 
   ## 2026-09-01 — Week 1, Day 4: Files + JSON  (WEEK 1 COMPLETE)
-  - Built week1/files_json.py. Plain text files with `with open(...)` (write "w" / read "r").
+  - Built phase1/week1/files_json.py. Plain text files with `with open(...)` (write "w" / read "r").
   - JSON: json.dump (dict -> JSON text / serialize) and json.load (JSON text -> dict / deserialize).
   - The load -> modify -> save cycle (the everyday config/API-data pattern).
   - Learned .gitignore: kept generated artifacts (notes.txt, config.json) out of version control.
@@ -129,7 +129,7 @@
     Foundation set for Week 2 (calling APIs) and Week 3 (Kiro CLI wrapper).
 
   ## 2026-09-01 — Week 1, Day 3: Functions
-  - Built week1/functions.py. Learned def, arguments, return (vs print).
+  - Built phase1/week1/functions.py. Learned def, arguments, return (vs print).
   - Refactored the disk-checker into a reusable check_disk_usage(threshold) that RETURNS
     a list of warnings instead of printing — separating "compute" from "display."
   - Proved reuse: same function called with threshold 80 and 60 gives different results, no code duplication.
@@ -137,14 +137,14 @@
     loop, so a break skipped it -> "runs but does nothing." Also caught a $ used instead of % (shell habit).
 
   ## 2026-08-28 — Week 1, Day 2: Lists & Dicts (the shape of AI data)
-  - Built week1/data_structures.py. Lists: indexing, len(), append(), enumerate().
+  - Built phase1/week1/data_structures.py. Lists: indexing, len(), append(), enumerate().
   - Dicts: key→value pairs, access by name not position.
   - Combined lists + dicts into an LLM "messages" array — the exact data structure
     every LLM API uses (system/user/assistant roles). Now I know what I'll be building in Week 3.
   - f-string with dict keys inside (single vs double quote nesting).
 
   ## 2026-08-27 — Week 1, Day 1: First Python (shell script → Python)
-  - Rewrote an ops disk-usage checker from bash into Python (week1/disk_check.py).
+  - Rewrote an ops disk-usage checker from bash into Python (phase1/week1/disk_check.py).
   - Learned by building: variables, print(), import, subprocess.run() to call shell commands,
     .split()/.split("\n"), for loops, list indexing (parts[4], parts[-1], lines[1:]),
     .endswith(), break/continue, int() + .replace(), f-strings, and None.
