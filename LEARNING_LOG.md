@@ -13,6 +13,22 @@
   
   All work here uses public/sample data only. No employer code or proprietary architecture.
   
+  ## 2026-11-10 — PHASE 2, Week 3: eval harness + vector-only baseline  (WEEK 3 IN PROGRESS)
+  - Built an 18-question eval set (eval_set.py), each question anchored to the SECTION that answers it
+    (not a chunk id), so scores survive re-chunking. Tagged Z0 (keyword overlap), Z1 (paraphrase, no shared
+    words), Z2 (rare literal terms) to give hybrid search room to show a difference.
+  - score.py: get_top_sections() queries the existing Chroma collection and returns plain section names;
+    first_hit_rank(), recall_at_k(), mrr(). Every retriever will return the same list-of-section-names
+    shape, so BM25 / vector / RRF are scored identically.
+  - Vector-only baseline: recall@1 0.83, recall@3 0.83, recall@5 0.94, MRR 0.861 (15/18 at rank 1;
+    Q1 and Q11 at rank 4; Q13 missed).
+  - Finding: the tiny corpus (28 chunks) causes a ceiling effect. recall@5 leaves only 1 question of
+    headroom, so I added recall@1/@3 and MRR to make the hybrid before/after comparison meaningful.
+    My guess that Z2 (rare-term) questions would fail first was wrong; all Z2 questions ranked #1.
+  - Debug lessons: passed q["question"] where q["answer_section"] was needed; typed {i>2} (a comparison) instead of
+    {i:>2} (a format spec). MRR divides by ALL questions so misses are not hidden.
+  - Next: BM25 (rank_bm25), then RRF hybrid, then RESULTS.md and the Friday blog.
+
   ## 2026-10-27 — PHASE 2, Week 2: end-to-end retrieval on real content + repo tidy  (WEEK 2 LEARNING COMPLETE)
   - phase2/week2/load_real_chunks.py: wired the whole pipeline on real content (public AWS Well-Architected sample):
     section-based chunking -> embed with own cached all-MiniLM-L6-v2 (HF_HUB_OFFLINE=1, no network) ->
