@@ -4,6 +4,8 @@ os.environ["HF_HUB_OFFLINE"] = "1"
 import chromadb
 from chromadb.utils import embedding_functions
 
+from eval_set import eval_questions
+
 my_embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
     model_name="all-MiniLM-L6-v2"
 )
@@ -42,19 +44,18 @@ def mrr(ranks):
     total = sum(1 / r for r in ranks if r is not None)
     return total / len(ranks)
 
-if __name__ == "__main__":
-    from eval_set import eval_questions
-
+def evaluate(retriever):
     ranks = []
-    for i, q in enumerate(eval_questions, start=1):
-        retrieved = get_top_sections(q["question"])
-        rank = first_hit_rank(q["answer_section"], retrieved)
-        ranks.append(rank)
-        print(f"Q{i:>2}  rank={rank}  expected={q['answer_section']}") 
+    for q in eval_questions:
+        retrieved = retriever(q["question"])
+        ranks.append(first_hit_rank(q["answer_section"], retrieved))
+    return ranks
 
-    print()
-    print(f"recall@1 = {recall_at_k(ranks,1):.2f}")
-    print(f"recall@3 = {recall_at_k(ranks,3):.2f}")
-    print(f"recall@5 = {recall_at_k(ranks,5):.2f}")
 
-    print(f"MRR     = {mrr(ranks):.3f}")
+if __name__ == "__main__":
+    ranks = evaluate(get_top_sections)
+    print(f"recall@1 = {recall_at_k(ranks, 1):.2f}")
+    print(f"recall@3 = {recall_at_k(ranks, 3):.2f}")
+    print(f"recall@5 = {recall_at_k(ranks, 5):.2f}")
+    print(f" MRR   =  {mrr(ranks):.3f}")
+
